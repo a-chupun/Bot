@@ -27,9 +27,7 @@ class ChatBot:
         }
         self.output = ""
         self.entries = []
-        self.dialogue = {"користувач": "", "бот": ""}
-
-
+        
     def __add_user_entry(self, user):
         self.entries.append(ChatEntry('Користувач', user))
     def __add_system_entry(self, system):
@@ -82,7 +80,6 @@ class ChatBot:
     def error(self):
         system = "Я не знаю цієї теми."
         chat.program_output(system)
-
 
     def user_help(self):
         system = "Для виходу, напишіть 'вихід'. Для повернення напишіть 'назад'."
