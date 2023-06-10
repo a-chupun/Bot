@@ -33,38 +33,12 @@ class ChatBot:
     def __add_system_entry(self, system):
         self.entries.append(ChatEntry('Помічник', system))
 
-    def program(self):
-        while True:
-            system = "Ви можете задати мені питання з наступних тем: математика, фізика, філологія, географія, робота з текстом, інше."
-            chat.program_output(system)
-            topic = input("")
-            self.__add_user_entry(topic)
-            a.write(f'Користувач: {topic}\n')
-            if topic.lower() in chat.topics.keys():
-                system = random.choice(chat.responses)
-                chat.program_output(system)
-                system = f"Ви обрали тему '{topic.lower()}'. У цій темі є такі підтеми:"
-                chat.program_output(system)
-                chat.topics[topic.lower()]()
-            elif topic.lower() == "вихід":
-                system = f"Радий був поспілкуватись! Якщо виникнуть нові питання, звертайтесь)"
-                chat.program_output(system)
-                a.close()
-                exit()
-            elif topic.lower() == "допомога":
-                chat.user_help()
-                continue
-            else:
-                chat.error()
-
     def user_input(self):
         user = input("")
         chat.user = user
         self.__add_user_entry(user)
         a.write(f'Користувач: {user}\n')
-        if chat.user.lower() == "назад":
-            chat.program()
-        elif chat.user.lower() == "вихід":
+        if chat.user.lower() == "вихід":
             system = f"Радий був поспілкуватись! Якщо виникнуть нові питання, звертайтесь)"
             chat.program_output(system)
             a.close()
@@ -84,7 +58,7 @@ class ChatBot:
     def user_help(self):
         system = "Для виходу, напишіть 'вихід'. Для повернення напишіть 'назад'."
         chat.program_output(system)
-        chat.program()
+       
 
     def maths(self):
         maths_topics = {"відстань між двома точками в просторі": chat.distance,
@@ -100,6 +74,8 @@ class ChatBot:
             system = f"Ви обрали тему '{chat.user}'"
             chat.program_output(system)
             chat.maths_topics[chat.user.lower()]()
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -163,6 +139,8 @@ class ChatBot:
             system = f"Ви обрали тему '{chat.user}'"
             chat.program_output(system)
             chat.physics_topics[chat.user]()
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -227,6 +205,8 @@ class ChatBot:
             system = f"Ви обрали тему '{chat.user}'"
             chat.program_output(system)
             chat.geography_topics[chat.user]()
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -274,6 +254,8 @@ class ChatBot:
             system = f"Ви обрали тему '{chat.user}'"
             chat.program_output(system)
             chat.philology_topics[chat.user]()
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -333,6 +315,8 @@ Future Perfect Continuous (майбутній доконаний тривали�
             chat.program_output(system)
             chat.file()
             chat.text_topics[topic.lower()](chat.text)
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -422,6 +406,8 @@ Future Perfect Continuous (майбутній доконаний тривали�
             system = f"Ви обрали тему '{chat.user}'"
             chat.program_output(system)
             chat.other_tasks[chat.user.lower()]()
+        elif chat.user.lower() == "назад":
+            return
         else:
             chat.error()
 
@@ -510,4 +496,16 @@ chat = ChatBot()
 system = f"Вітаю, мене звати Помічник. "\
            "Для повернення до попередньої теми введіть 'назад', для виходу - 'вихід', а для допомоги  - 'допомога'"
 chat.program_output(system)
-chat.program()
+
+while True:
+    system = "Ви можете задати мені питання з наступних тем: математика, фізика, філологія, географія, робота з текстом, інше."
+    chat.program_output(system)
+    chat.user_input()
+    if chat.user.lower() in chat.topics.keys():
+        system = random.choice(chat.responses)
+        chat.program_output(system)
+        system = f"Ви обрали тему '{chat.user.lower()}'. У цій темі є такі підтеми:"
+        chat.program_output(system)
+        chat.topics[chat.user.lower()]()
+    else:
+        chat.error()
